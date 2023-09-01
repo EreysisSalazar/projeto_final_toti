@@ -1,4 +1,4 @@
-// Variables Globales
+// Variaveis Gerais
 let teamData;
 let newPlayer = {
     id: 12345,
@@ -17,7 +17,7 @@ let newData = {
     photo: "https://media.api-sports.io/football/players/12345.png"
 }
 
-// FUNÇAO faz a requisiçao para a API e almacena na variavel global teamData
+// FUNÇAO faz a requisiçao para a API e almacena na variavel geral teamData
 function getData() {
   fetch('https://v3.football.api-sports.io/players/squads?team=127', {
     method: 'GET',
@@ -128,9 +128,9 @@ body: JSON.stringify(newData)
 }
 
 
-// Funcion que apaga o jogador usando DELETE
-function deletePlayer(playerId) {
-fetch(`https://v3.football.api-sports.io/players/?id=${playerId}`, {
+// FUNÇAO que apaga o jogador usando DELETE
+function deletePlayer(playerID) {
+fetch(`https://v3.football.api-sports.io/players/?id=${playerID}`, {
 method: 'DELETE',
 headers: {
   'x-rapidapi-host': 'v3.football.api-sports.io',
@@ -139,10 +139,16 @@ headers: {
 })
 .then(response => response.json())
 .then(data => {
-
-
-    
-})}
+    let playerIndex = teamData.findIndex(player => player.id === playerID);
+    if (playerIndex !== -1) {
+      teamData.splice(playerIndex, 1);
+      console.log("Jogador apagado com sucesso.");
+    } else {
+      console.log("ID inexistente.");
+    }
+    return teamData
+  }
+)}
 
 // Eventos de escuta que salva os dados de jogador novo
 document.getElementById('submitBtn').addEventListener('click', function () {
