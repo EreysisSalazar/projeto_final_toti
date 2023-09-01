@@ -1,15 +1,23 @@
 // Variables Globales
 let teamData;
-const newPlayer = {
-    "id": 12345,
-    "name": "Pedrito Perez",
-    "age": 25,
-    "number": 45,
-    "position": "Forward",
-    "photo": "https://media.api-sports.io/football/players/12345.png"
+let newPlayer = {
+    id: 12345,
+    name: "Pedrito Perez",
+    age: 25,
+    number: 45,
+    position: "Forward",
+    photo: "https://media.api-sports.io/football/players/12345.png"
   };
 
-// FUNÇAO faz a requisiçao para a API e almacena na variavel teamData
+let newData = {
+    name: "Pedrito Perez",
+    age: 25,
+    number: 45,
+    position: "Forward",
+    photo: "https://media.api-sports.io/football/players/12345.png"
+}
+
+// FUNÇAO faz a requisiçao para a API e almacena na variavel global teamData
 function getData() {
   fetch('https://v3.football.api-sports.io/players/squads?team=127', {
     method: 'GET',
@@ -87,12 +95,12 @@ function sendPlayer(newPlayer) {
         teamData.push(newPlayer);
         return teamData;
     });
-    console.log("Your New Player is:",teamData.find(player => player.id === newPlayer.id))
+    console.log("O Novo jogador do time é:",teamData.find(player => player.id === newPlayer.id))
 }
 
 
 // FUNÇAO que modifica com o metodo PUT a um jogador
-function updatePlayer(playerId, dadosNovos) {
+function updatePlayer(playerID, newData) {
 fetch(`https://v3.football.api-sports.io/players/?id=${playerId}`, {
 method: 'PUT',
 headers: {
@@ -100,15 +108,23 @@ headers: {
   'x-rapidapi-host': 'v3.football.api-sports.io',
   'x-rapidapi-key': '83303917d80ac4e0dad6d309eabe233e'
 },
-body: JSON.stringify(updatedData)
+body: JSON.stringify(newData)
 })
 .then(response => response.json())
-.then(data => {
-console.log('Player updated:', data);
+.then(data => {  
+    let playerIndex = teamData.findIndex(player => player.id === playerID);
+    if (playerIndex !== -1) {
+      teamData[playerIndex] = {
+        ...teamData[playerIndex],
+        ...newData
+      };
+      console.log("O Jogador alterado foi:",teamData.find(player => player.id === PlayerID))   
+      return teamData;
+    } else {
+      console.log("ID inexistente");
+      return teamData;
+    }
 })
-.catch(error => {
-console.error('Error:', error);
-});
 }
 
 
@@ -121,17 +137,12 @@ headers: {
   'x-rapidapi-key': '83303917d80ac4e0dad6d309eabe233e'
 }
 })
-.then(response => {
-if (response.ok) {
-  console.log(`Player with ID ${playerId} deleted successfully.`);
-} else {
-  console.error('Failed to delete player.');
-}
-})
-.catch(error => {
-console.error('Error:', error);
-});
-}
+.then(response => response.json())
+.then(data => {
+
+
+    
+})}
 
 // Eventos de escuta que salva os dados de jogador novo
 document.getElementById('submitBtn').addEventListener('click', function () {
