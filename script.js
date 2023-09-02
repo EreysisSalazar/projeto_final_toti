@@ -8,13 +8,10 @@ let newPlayer = {
     position: "Forward",
     photo: "https://media.api-sports.io/football/players/12345.png"
   };
-
 let newData = {
     name: "Pedrito Perez",
     age: 25,
-    number: 45,
     position: "Forward",
-    photo: "https://media.api-sports.io/football/players/12345.png"
 }
 
 // FUNÇAO faz a requisiçao para a API e almacena na variavel geral teamData
