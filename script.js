@@ -28,6 +28,7 @@ function showSquad() {
   let teamListDiv = document.getElementById('teamList');
   teamListDiv.innerHTML = '';
   teamData.response[0].players.forEach(player => {
+
       let playerCardDiv = document.createElement('div');
       playerCardDiv.classList.add('playerCardDiv');
       playerCardDiv.setAttribute("id", `${player.id}`);
@@ -85,13 +86,6 @@ function showSquad() {
   };
 
 
-// Event listener que activa o getData
-let squadContainer = document.querySelector('.squadContainer');
-squadContainer.addEventListener('click', function() {
-  getData();
-});
-
-
 //FUNÇAO que cria um formulario no site, sempre que precise atualizar um jogador
 function atualizarFormulario(playerId) {
     let playerToken = playerId
@@ -99,7 +93,7 @@ function atualizarFormulario(playerId) {
     if (formUpdate.firstChild) {
         formUpdate.removeChild(formUpdate.firstChild);
       }
-    let player = teamData[0].players.find((player) => player.id === playerId);
+    let player = teamData.response[0].players.find((player) => player.id === playerId);
 
   
     if (!player) {
@@ -108,7 +102,6 @@ function atualizarFormulario(playerId) {
     }
   
     const form = document.createElement('form');
-    // Crear etiquetas y campos de entrada para los datos del jugador
     const nameLabel = document.createElement('label');
     nameLabel.textContent = 'Nome:';
     const nameInput = document.createElement('input');
@@ -141,7 +134,7 @@ function atualizarFormulario(playerId) {
     submitButton.setAttribute('type', 'submit');
     submitButton.setAttribute('value', 'Enviar');
 
-    
+
     form.appendChild(nameLabel);
     form.appendChild(nameInput);
     form.appendChild(ageLabel);
@@ -205,6 +198,13 @@ function updatePlayer(playerID, newData) {
       console.log("ID inexistente");
     }
   }
+function createPlayer(){
+
+
+
+
+}
+
 
 // // FUNÇAO que faz o POST para criar un novo jogador 
 // function sendPlayer(newPlayer) {

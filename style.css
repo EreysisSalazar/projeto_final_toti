@@ -99,17 +99,22 @@ nav{
     background-color: crimson;
     height: 270px;
     grid-column: span 2;
-    overflow: hidden;
-    position: relative;
-}
+    display: flex;
+    flex-direction: column;
 
-.squadContainer img{
+}
+.squad{
+    background: url(img/teme.jpg);
+    background-position: center;    
+}
+.createPlayer{
     width: 100%;
-    position: absolute;
-    top: -500px;
+    height: 20px;
+    background-color: #d2232a;
 
 
 }
+
 
 #teamList{
     display: grid;
