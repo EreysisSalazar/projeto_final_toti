@@ -15,18 +15,20 @@ function getData() {
     .then(response => response.json())
     .then(data => {
       teamData = data;
-      console.log(teamData);
       showSquad();
     })
     .catch(error => {
       console.error('Error:', error);
     });
 }
+
  
 // FUNÇAO QUE CRIA OS DIV E MOSTRA OS DADOS
 function showSquad() {
-  console.log(teamData);
+    console.log(teamData)
   let teamListDiv = document.getElementById('teamList');
+  let createPlayerDiv = document.getElementById('createPlayer')
+  createPlayerDiv.style.display = "block";
   teamListDiv.innerHTML = '';
   teamData.response[0].players.forEach(player => {
 
@@ -199,112 +201,118 @@ function updatePlayer(playerID, newData) {
       console.log("ID inexistente");
     }
   }
-function createPlayer(){
- // Crear un elemento de formulario
- const form = document.createElement('form');
+  function createPlayer(){
+ 
+    const form = document.createElement('form');
+    
+
+    const nameLabel = document.createElement('label');
+    nameLabel.textContent = 'Nome:';
+    const nameInput = document.createElement('input');
+    nameInput.setAttribute('type', 'text');
+    nameInput.setAttribute('name', 'name');
+    
+
+    const ageLabel = document.createElement('label');
+    ageLabel.textContent = 'Edade:';
+    const ageInput = document.createElement('input');
+    ageInput.setAttribute('type', 'number');
+    ageInput.setAttribute('name', 'age');
+    
+
+    const positionLabel = document.createElement('label');
+    positionLabel.textContent = 'Position:';
+    const positionInput = document.createElement('input');
+    positionInput.setAttribute('type', 'text');
+    positionInput.setAttribute('name', 'position');
+    
+
+    const numberLabel = document.createElement('label');
+    numberLabel.textContent = 'Number:';
+    const numberInput = document.createElement('input');
+    numberInput.setAttribute('type', 'number');
+    numberInput.setAttribute('name', 'number');
+    
+
+    const submitButton = document.createElement('input');
+    submitButton.setAttribute('type', 'submit');
+    submitButton.setAttribute('value', 'Enviar');
+    
+
+    form.appendChild(nameLabel);
+    form.appendChild(nameInput);
+    form.appendChild(ageLabel);
+    form.appendChild(ageInput);
+    form.appendChild(positionLabel);
+    form.appendChild(positionInput);
+    form.appendChild(numberLabel);
+    form.appendChild(numberInput);
+    form.appendChild(submitButton);
+    
+
+    let formContainer = document.getElementById('formUpdate');
+    if (formContainer.firstChild) {
+        formContainer.removeChild(formContainer.firstChild);
+      }
+    formContainer.appendChild(form);
   
- // Crear un campo para el nombre
- const nameLabel = document.createElement('label');
- nameLabel.textContent = 'Nombre:';
- const nameInput = document.createElement('input');
- nameInput.setAttribute('type', 'text');
- nameInput.setAttribute('name', 'name');
- 
- // Crear un campo para la edad
- const ageLabel = document.createElement('label');
- ageLabel.textContent = 'Edad:';
- const ageInput = document.createElement('input');
- ageInput.setAttribute('type', 'number');
- ageInput.setAttribute('name', 'age');
- 
- // Crear un campo para la posición
- const positionLabel = document.createElement('label');
- positionLabel.textContent = 'Posición:';
- const positionInput = document.createElement('input');
- positionInput.setAttribute('type', 'text');
- positionInput.setAttribute('name', 'position');
- 
- // Crear un campo para el número
- const numberLabel = document.createElement('label');
- numberLabel.textContent = 'Número:';
- const numberInput = document.createElement('input');
- numberInput.setAttribute('type', 'number');
- numberInput.setAttribute('name', 'number');
- 
- // Crear un botón de envío
- const submitButton = document.createElement('input');
- submitButton.setAttribute('type', 'submit');
- submitButton.setAttribute('value', 'Enviar');
- 
- // Agregar los campos y etiquetas al formulario
- form.appendChild(nameLabel);
- form.appendChild(nameInput);
- form.appendChild(ageLabel);
- form.appendChild(ageInput);
- form.appendChild(positionLabel);
- form.appendChild(positionInput);
- form.appendChild(numberLabel);
- form.appendChild(numberInput);
- form.appendChild(submitButton);
- 
- // Agregar el formulario al documento (por ejemplo, a un div con el id 'formulario')
- const formContainer = document.getElementById('formUpdate');
- formContainer.appendChild(form);
- 
- // Agregar un evento de envío para manejar los datos ingresados por el usuario
- form.addEventListener('submit', function(event) {
-   event.preventDefault();
-   
-   // Obtener los valores ingresados por el usuario
-   const name = nameInput.value;
-   const age = ageInput.value;
-   const position = positionInput.value;
-   const number = numberInput.value;
-   const photo = src(img/profilePic);
-   
-   // Aquí puedes hacer algo con los datos, como enviarlos a un servidor o mostrarlos en la consola
-   console.log('Nombre:', name);
-   console.log('Edad:', age);
-   console.log('Posición:', position);
-   console.log('Número:', number);
-   console.log('Photo',photo)
- });
 
- newPlayer = {
-    name: name,
-    age: age,
-    number: number,
-    position: position
-  };
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+  
 
-}
+      let name = nameInput.value;
+      let age = ageInput.value;
+      let position = positionInput.value;
+      let number = numberInput.value;
 
+      let photo ="https://media-2.api-sports.io/football/players/306210.png";
+      newPlayer = {
+        id: 0,
+        name: name,
+        age: age,
+        number: number,
+        position: position,
+        photo: photo
+      };
 
-// // FUNÇAO que faz o POST para criar un novo jogador 
-// function sendPlayer(newPlayer) {
-//   fetch('https://v3.football.api-sports.io/players', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'x-rapidapi-host': 'v3.football.api-sports.io',
-//       'x-rapidapi-key': '83303917d80ac4e0dad6d309eabe233e'
-//     },
-//     body: JSON.stringify(newPlayer)
-//   })
-//     .then(response => response.json())
-//     .then(data => {
-//         if (newPlayer.id === 0 || teamData.some(player => player.id === newPlayer.id)) {
-//         let newID;
-//         do {
-//           newID = Math.floor(Math.random() * 10000);
-//         } while (teamData.some(player => player.id === nuevoID));
-//         newPlayer.id = newID;
-//       } 
-//         teamData.push(newPlayer);
-//         return teamData;
-//     });
-//     console.log("O Novo jogador do time é:",teamData.find(player => player.id === newPlayer.id))
-// }
+  console.log(newPlayer)
+      sendPlayer(newPlayer);
+  
+    });
+  }
+  
+
+// FUNÇAO que faz o POST para criar un novo jogador 
+function sendPlayer(newPlayer) {
+    if (newPlayer.id === 0 || teamData.response[0].players.some(player => player.id === newPlayer.id)) {
+      let newID;
+      do {
+        newID = Math.floor(Math.random() * 10000);
+      } while (teamData.response[0].players.some(player => player.id === newID));
+      newPlayer.id = newID;
+    }
+    teamData.response[0].players.push(newPlayer);
+    console.log("Jogador criado com successo")
+  showSquad()
+
+    fetch('https://v3.football.api-sports.io/players', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-rapidapi-host': 'v3.football.api-sports.io',
+        'x-rapidapi-key': '83303917d80ac4e0dad6d309eabe233e'
+      },
+      body: JSON.stringify(newPlayer)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("El nuevo jugador del equipo es:", teamData.find(player => player.id === newPlayer.id));
+      })
+      .catch(error => {
+        console.error("Error al enviar el nuevo jugador:", error);
+      });
+  }
 
 
 // FUNÇAO que apaga o jogador usando DELETE
@@ -336,12 +344,3 @@ function deletePlayer(playerID) {
     }
   }
 
-// // Eventos de escuta que salva os dados de jogador novo
-// document.getElementById('submitBtn').addEventListener('click', function () {
-//   let playerName = document.getElementById('name').value;
-//   let playerAge = document.getElementById('age').value;
-//   let playerNumber = document.getElementById('number').value;
-//   let playerPosition = document.getElementById('position').value;
-//   let playerPhoto = document.getElementById('photo').value;
-//   console.log(playerData);
-// })
