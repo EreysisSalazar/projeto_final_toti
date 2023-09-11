@@ -447,24 +447,27 @@ function nextFixtureGet(){
 
 
 function nextFixture() {
-    console.log(fixtureData.response[0])
     let nextMatchDiv = document.getElementById("nextMatch");
   
     const homeTeamName = document.createElement('p');
     homeTeamName.textContent = fixtureData.response[0].teams.home.name;
+    homeTeamName.classList.add('teamName');
+
   
     const awayTeamName = document.createElement('p');
     awayTeamName.textContent = fixtureData.response[0].teams.away.name;
+    awayTeamName.classList.add('teamName');
+
   
     const stadium = document.createElement('p');
-    stadium.textContent = `Estadio: ${fixtureData.response[0].fixture.venue.name}, ${fixtureData.response[0].fixture.venue.city}`;
+    stadium.textContent = `${fixtureData.response[0].fixture.venue.name}, ${fixtureData.response[0].fixture.venue.city}`;
   
     const matchDateTime = document.createElement('p');
     const matchDate = new Date(fixtureData.response[0].fixture.date);
-    matchDateTime.textContent = `Fecha y Hora: ${matchDate.toLocaleString()}`;
+    matchDateTime.textContent = ` ${matchDate.toLocaleString()}`;
   
     const leagueName = document.createElement('p');
-    leagueName.textContent = `Liga: ${fixtureData.response[0].league.name}`;
+    leagueName.textContent = `${fixtureData.response[0].league.name}`;
   
     const homeTeamLogo = document.createElement('img');
     homeTeamLogo.src = fixtureData.response[0].teams.home.logo;
@@ -472,13 +475,42 @@ function nextFixture() {
     const awayTeamLogo = document.createElement('img');
     awayTeamLogo.src = fixtureData.response[0].teams.away.logo;
 
-    nextMatchDiv.appendChild(homeTeamLogo);
-    nextMatchDiv.appendChild(homeTeamName);
-    nextMatchDiv.appendChild(awayTeamLogo);
-    nextMatchDiv.appendChild(awayTeamName);
-    nextMatchDiv.appendChild(stadium);
-    nextMatchDiv.appendChild(matchDateTime);
+
+    let homeTeamPack = document.createElement('div');
+    homeTeamPack.classList.add('TeamPack');
+
+    let awayTeamPack = document.createElement('div');
+    awayTeamPack.classList.add('TeamPack');
+
+    let versusTextContainer = document.createElement('div');
+    versusTextContainer.classList.add('versusTextContainer');
+
+    let versusText= document.createElement('p');
+    versusText.textContent = "VS"
+    let homeAwayMatch = document.createElement('div');
+    homeAwayMatch.classList.add('homeAwayMatch');
+
+
     nextMatchDiv.appendChild(leagueName);
+  
+
+    homeTeamPack.appendChild(homeTeamLogo);
+    homeTeamPack.appendChild(homeTeamName);
+    homeAwayMatch.appendChild(homeTeamPack)
+
+    versusTextContainer.appendChild(versusText)
+    homeAwayMatch.appendChild(versusTextContainer);
+
+    awayTeamPack.appendChild(awayTeamLogo);
+    awayTeamPack.appendChild(awayTeamName);
+    homeAwayMatch.appendChild(awayTeamPack)
+
+    nextMatchDiv.appendChild(homeAwayMatch)
+
+    nextMatchDiv.appendChild(matchDateTime);
+    nextMatchDiv.appendChild(stadium);
+
+ 
   }
   
   nextFixture();
