@@ -2,6 +2,89 @@
 let teamData;
 let newData;
 let newPlayer;
+let fixtureData = {
+    "get": "fixtures",
+    "parameters": {
+        "team": "127",
+        "next": "1"
+    },
+    "errors": [],
+    "results": 1,
+    "paging": {
+        "current": 1,
+        "total": 1
+    },
+    "response": [
+        {
+            "fixture": {
+                "id": 1005869,
+                "referee": null,
+                "timezone": "UTC",
+                "date": "2023-09-14T00:30:00+00:00",
+                "timestamp": 1694651400,
+                "periods": {
+                    "first": null,
+                    "second": null
+                },
+                "venue": {
+                    "id": null,
+                    "name": "Estádio Kleber José de Andrade",
+                    "city": "Cariacica, Espírito Santo"
+                },
+                "status": {
+                    "long": "Not Started",
+                    "short": "NS",
+                    "elapsed": null
+                }
+            },
+            "league": {
+                "id": 71,
+                "name": "Serie A",
+                "country": "Brazil",
+                "logo": "https://media-2.api-sports.io/football/leagues/71.png",
+                "flag": "https://media-1.api-sports.io/flags/br.svg",
+                "season": 2023,
+                "round": "Regular Season - 23"
+            },
+            "teams": {
+                "home": {
+                    "id": 127,
+                    "name": "Flamengo",
+                    "logo": "https://media-3.api-sports.io/football/teams/127.png",
+                    "winner": null
+                },
+                "away": {
+                    "id": 134,
+                    "name": "Atletico Paranaense",
+                    "logo": "https://media-2.api-sports.io/football/teams/134.png",
+                    "winner": null
+                }
+            },
+            "goals": {
+                "home": null,
+                "away": null
+            },
+            "score": {
+                "halftime": {
+                    "home": null,
+                    "away": null
+                },
+                "fulltime": {
+                    "home": null,
+                    "away": null
+                },
+                "extratime": {
+                    "home": null,
+                    "away": null
+                },
+                "penalty": {
+                    "home": null,
+                    "away": null
+                }
+            }
+        }
+    ]
+};
 
 // FUNÇAO faz a requisiçao para a API e al macena na variavel geral teamData
 function getData() {
@@ -344,3 +427,59 @@ function deletePlayer(playerID) {
     }
   }
 
+function nextFixtureGet(){
+    fetch('https://v3.football.api-sports.io/fixtures?team=127&next=1', {
+        method: 'GET',
+        headers: {
+          'x-rapidapi-host': 'v3.football.api-sports.io',
+          'x-rapidapi-key': '83303917d80ac4e0dad6d309eabe233e'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          fixtureData= data;
+          console.log(fixtureData)
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+
+function nextFixture() {
+    console.log(fixtureData.response[0])
+    let nextMatchDiv = document.getElementById("nextMatch");
+  
+    const homeTeamName = document.createElement('p');
+    homeTeamName.textContent = fixtureData.response[0].teams.home.name;
+  
+    const awayTeamName = document.createElement('p');
+    awayTeamName.textContent = fixtureData.response[0].teams.away.name;
+  
+    const stadium = document.createElement('p');
+    stadium.textContent = `Estadio: ${fixtureData.response[0].fixture.venue.name}, ${fixtureData.response[0].fixture.venue.city}`;
+  
+    const matchDateTime = document.createElement('p');
+    const matchDate = new Date(fixtureData.response[0].fixture.date);
+    matchDateTime.textContent = `Fecha y Hora: ${matchDate.toLocaleString()}`;
+  
+    const leagueName = document.createElement('p');
+    leagueName.textContent = `Liga: ${fixtureData.response[0].league.name}`;
+  
+    const homeTeamLogo = document.createElement('img');
+    homeTeamLogo.src = fixtureData.response[0].teams.home.logo;
+  
+    const awayTeamLogo = document.createElement('img');
+    awayTeamLogo.src = fixtureData.response[0].teams.away.logo;
+
+    nextMatchDiv.appendChild(homeTeamLogo);
+    nextMatchDiv.appendChild(homeTeamName);
+    nextMatchDiv.appendChild(awayTeamLogo);
+    nextMatchDiv.appendChild(awayTeamName);
+    nextMatchDiv.appendChild(stadium);
+    nextMatchDiv.appendChild(matchDateTime);
+    nextMatchDiv.appendChild(leagueName);
+  }
+  
+  nextFixture();
+  
