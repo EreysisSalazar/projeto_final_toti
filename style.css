@@ -97,13 +97,14 @@ nav{
 
 .squadContainer{
     background-color: crimson;
-    height: 270px;
     grid-column: span 2;
     display: flex;
     flex-direction: column;
 
+
 }
 .squad{
+    height: 270px;
     background: url(img/teme.jpg);
     background-position: center;    
 }
